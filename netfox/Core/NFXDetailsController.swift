@@ -96,7 +96,7 @@ class NFXDetailsController: NFXGenericController {
         } else {
             var cookiesString: String = ""
             object.requestCookies?.forEach({ data in
-                cookiesString = "\(cookiesString)\(data.name): \(data.value)\n"
+                cookiesString += "[\(data.name)] \n\(data.value)\n\n"
             })
             tempString += "\(cookiesString)\n"
         }

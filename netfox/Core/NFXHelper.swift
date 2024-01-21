@@ -198,15 +198,8 @@ extension URLRequest {
     }
     
     func getNFXCookies() -> [HTTPCookie] {
-        if let cookies = HTTPCookieStorage.shared.cookies {
-            var cookiesByCurrentHost: [HTTPCookie] = []
-            cookies.forEach { data in
-                print(data)
-                if self.url?.host?.contains(data.domain) == true {
-                    cookiesByCurrentHost.append(data)
-                }
-            }
-            return cookiesByCurrentHost
+        if let `url` = self.url, let cookies = HTTPCookieStorage.shared.cookies(for: url) {
+            return cookies
         }
         return []
     }
