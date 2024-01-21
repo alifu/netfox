@@ -37,6 +37,7 @@ class NFXDetailsController: NFXGenericController {
     
     private enum Constants: String {
         case headersTitle = "-- Headers --\n\n"
+        case cookieTitle = "\n-- Cookie --\n\n"
         case bodyTitle = "\n-- Body --\n\n"
         case tooLongToShowTitle = "Too long to show. If you want to see it, please tap the following button\n"
     }
@@ -80,10 +81,26 @@ class NFXDetailsController: NFXGenericController {
             tempString += "Request headers are empty\n\n"
         }
         
+        tempString += getRequestCookieString(object)
+        
     #if os(iOS)
         tempString += getRequestBodyStringFooter(object)
     #endif
         return formatNFXString(tempString)
+    }
+    
+    func getRequestCookieString(_ object: NFXHTTPModel) -> String {
+        var tempString = Constants.cookieTitle.rawValue
+        if (object.requestCookies?.count == 0) {
+            tempString += "Request cookie is empty\n"
+        } else {
+            var cookiesString: String = ""
+            object.requestCookies?.forEach({ data in
+                cookiesString = "\(cookiesString)\(data.name): \(data.value)\n"
+            })
+            tempString += "\(cookiesString)\n"
+        }
+        return tempString
     }
 
     func getRequestBodyStringFooter(_ object: NFXHTTPModel) -> String {

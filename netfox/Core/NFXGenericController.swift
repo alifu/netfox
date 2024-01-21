@@ -38,7 +38,7 @@ class NFXGenericController: NFXViewController {
         
         let stringCount = string.count
         
-        let regexBodyHeaders = try! NSRegularExpression(pattern: "(\\-- Body \\--)|(\\-- Headers \\--)", options: NSRegularExpression.Options.caseInsensitive)
+        let regexBodyHeaders = try! NSRegularExpression(pattern: "(\\-- Body \\--)|(\\-- Headers \\--)|(\\-- Cookie \\--)", options: NSRegularExpression.Options.caseInsensitive)
         let matchesBodyHeaders = regexBodyHeaders.matches(in: string, options: NSRegularExpression.MatchingOptions.withoutAnchoringBounds, range: NSMakeRange(0, stringCount)) as Array<NSTextCheckingResult>
         
         for match in matchesBodyHeaders {

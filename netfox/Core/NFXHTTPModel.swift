@@ -31,6 +31,7 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
     public var requestBodyLength: Int?
     @objc public var requestType: String?
     @objc public var requestCurl: String?
+    @objc public var requestCookies: [HTTPCookie]?
 
     public var responseStatus: Int?
     @objc public var responseType: String?
@@ -59,6 +60,7 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
         requestHeaders = request.getNFXHeaders()
         requestType = requestHeaders?["Content-Type"] as! String?
         requestCurl = request.getCurl()
+        requestCookies = request.getNFXCookies()
     }
     
     func saveRequestBody(_ request: URLRequest) {

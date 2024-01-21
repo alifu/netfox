@@ -188,7 +188,27 @@ extension URLRequest {
             command.append("-d \u{22}\(body)\u{22}")
         }
         
+        var cookiesString: String = ""
+        getNFXCookies().forEach({ data in
+            cookiesString = "\(cookiesString)\(data.name)=\(data.value);"
+        })
+        command.append("-H \u{22}Cookie: \(cookiesString)\u{22}")
+        
         return command.joined(separator: " ")
+    }
+    
+    func getNFXCookies() -> [HTTPCookie] {
+        if let cookies = HTTPCookieStorage.shared.cookies {
+            var cookiesByCurrentHost: [HTTPCookie] = []
+            cookies.forEach { data in
+                print(data)
+                if self.url?.host?.contains(data.domain) == true {
+                    cookiesByCurrentHost.append(data)
+                }
+            }
+            return cookiesByCurrentHost
+        }
+        return []
     }
 }
 
