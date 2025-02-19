@@ -249,6 +249,24 @@ class NFXSettingsController_iOS: NFXSettingsController, UITableViewDelegate, UIT
             }
             
             present(mailComposer, animated: true, completion: nil)
+        } else {
+            let sessionLogURL = NFXPath.sessionLogURL
+            
+            guard FileManager.default.fileExists(atPath: sessionLogURL.path) else {
+                print("Session log file not found")
+                return
+            }
+            
+            let activityViewController = UIActivityViewController(activityItems: [sessionLogURL], applicationActivities: nil)
+            
+            // iPad support: Set source view
+            if let popoverController = activityViewController.popoverPresentationController {
+                popoverController.sourceView = self.view
+                popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+                popoverController.permittedArrowDirections = []
+            }
+            
+            present(activityViewController, animated: true, completion: nil)
         }
     }
     
